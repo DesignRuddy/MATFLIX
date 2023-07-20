@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.ReplyMapper">
+
+	<!-- 
+	    1638664번 게시글에 댓글을 삽입해 주었습니다.
+		INSERT into tbl_reply (rno, bno, reply, replyer)
+		VALUES (seq_reply.nextval, 1638664, '댓글 등록 테스트', '장나라');
+	 -->
+	<insert id="insert">
+		INSERT into tbl_reply2 (rno, bno, reply, replyer)
+		VALUES (seq_reply2.nextval, #{bno}, #{reply}, #{replyer})	
+	</insert>	
+	
+	<!-- 
+		select * from tbl_reply where rno = 2;	
+	 -->
+	 <select id="read" resultType="org.zerock.domain.ReplyVO">
+	 	select * from tbl_reply2 where rno = #{rno}
+	 </select>
+	 
+	 <!-- 
+	 	DELETE from tbl_reply WHERE rno = 2;
+	  -->
+	 <delete id="delete">
+	 	DELETE from tbl_reply2 WHERE rno = #{rno}	 
+	 </delete>
+	 
+	 <!-- 
+	 	UPDATE tbl_reply set reply = '즐거운 일요일 기다려집니다!', updatedate = sysdate
+WHERE rno = 10;
+	  -->
+	  <update id="update">
+	  UPDATE tbl_reply2 set reply = #{reply}, updatedate = sysdate
+WHERE rno = #{rno}	  
+	  </update>	
+	  
+	  <!-- 
+	  	SELECT rno, bno, reply, replyer, replyDate, updatedate
+		FROM tbl_reply
+		WHERE bno = 1638664
+		ORDER BY rno asc;
+	   -->	
+	   <!--   
+	  <select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
+	  	SELECT rno, bno, reply, replyer, replyDate, updatedate
+		FROM tbl_reply
+		WHERE bno = #{bno}
+		ORDER BY rno asc	  
+	  </select>
+	   -->
+	  <select id="getListWithPaging" resultType="org.zerock.domain.ReplyVO">
+	  	<![CDATA[
+		select rno, bno, reply, replyer, replydate, updatedate
+		from
+			(
+				select /*+ INDEX(tbl_reply2 idx_reply2) */
+				rownum rn, rno, bno, reply, replyer, replyDate, updatedate
+			from tbl_reply2
+			where bno = #{bno}
+				and rno > 0
+				and rownum <= #{cri.pageNum} * #{cri.amount}   
+			) where rn > (#{cri.pageNum} - 1) * #{cri.amount}
+		]]> 
+	  </select>	  
+	  
+	  <!-- Page433 getCountByBno인 select 태그 쿼리문 확인
+	  SELECT count(rno) from tbl_reply WHERE bno = 491602;
+	   -->
+	  <select id="getCountByBno" resultType="int">
+	  <![CDATA[
+	  SELECT count(rno) from tbl_reply2 WHERE bno = #{bno}
+	  ]]>	  
+	  </select>
+	  
+</mapper>
+
+
+
+

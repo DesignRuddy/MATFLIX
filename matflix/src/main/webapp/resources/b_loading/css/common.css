@@ -1,0 +1,6 @@
+@charset "utf-8";
+/* https://www.goryeong.go.kr/kor/contents.do?IDX=409 */
+@font-face {
+    font-family: 'Stu' ;
+    src: url('../fonts/고령딸기체+TTF.ttf') format('truetype');
+}

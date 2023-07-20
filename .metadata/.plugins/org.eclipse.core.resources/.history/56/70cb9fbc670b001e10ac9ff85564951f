@@ -1,0 +1,243 @@
+@charset "utf-8";
+
+/* 코트라 희망체 적용 : https://noonnu.cc/font_page/767 */
+@font-face {
+    font-family: 'TAEBAEKmilkyway';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/TAEBAEKmilkyway.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: TAEBAEKmilkyway;
+}
+
+/* 네비게이션 바 작성 */
+.navbar-brand{
+    color: #fff !important;
+}
+
+.navbar-brand img{
+    height: 50px;
+    vertical-align: top !important;
+    
+}
+
+.navbar-brand p{
+    display: inline-block;
+    font-size: 30px;
+    margin-top: 0px;
+    height: 20px;
+}
+
+.mybox{
+    background-color: rgba(0, 0, 0, .8);
+    height: 75px;
+}
+
+.navbar-nav li {
+    margin-left: 70px;
+}
+
+.navbar-nav li a {
+    font-size: 17px;
+    color: #fff !important;
+}
+
+.nav-link:hover{
+    color: #ffdf00 !important;
+}
+
+.nav-link:focus{
+    color: #ffdf00 !important;
+}
+
+/* dropdown-menu 설정 변경 */
+.dropdown-menu{
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid black;
+    margin-top: 14px;
+}
+
+.navbar-toggler{
+    background-color: #fff;
+}
+
+.dropdown-item:hover{
+    /* dropdown 변경 사항 적용 */
+    background: none !important;
+    color: #ffdf00 !important;
+}
+
+
+/* 서브 텍스트 내용 작성 */
+.section{
+    margin: 100px 0;
+    padding: 50px 0;
+    background-color: #fff;
+}
+
+.section .row{
+    margin-bottom: 50px;
+}
+
+.section .row div{
+    text-align: center;
+    line-height: 30px;
+}
+
+.section .row div img{
+    width: 50px;
+    margin-bottom: 60px;
+}
+
+.row{
+    margin-top: 20px;
+}
+
+.row div{
+    margin-top: 10px;
+}
+
+.owl-stage{
+	 margin-top: -100px !important;
+}
+
+/* restaurant 이미지 클릭 시 모달창 css  */
+
+.modal1 {
+   display: none;
+   z-index: 500; 
+   width: 100%;
+   height: 100vh;
+   position: fixed;
+   top: 0;
+   left: 0;
+   background-color: rgba(0, 0, 0, 0.3);
+}
+.modal1 button {
+   position: absolute;
+   top: 3rem;
+   right: 3rem;
+   background: transparent;
+   border: 0;
+   color: #ffffff;
+   font-size: 3rem;
+}
+
+.modalBox1 {
+   position: relative;
+   top: 20%;
+   left: 50%;
+   transform: translate(-50%, -20%);
+/*   background-color: #ffffff; */ 
+   width: 60%;
+   height: 60%;
+   text-align: center;
+}
+
+.modalBox1 img {
+   width: 100%;
+}
+
+.modalBox1 p {
+   color: #ffffff;
+   background-color: #000;
+   font-size: 2rem;
+   padding: .2rem;
+   width: 100%;
+   max-width: 600px;
+   margin: auto;
+}
+
+
+/* 갤러리 이미지 carousel 적용 : https://getbootstrap.com/docs/4.6/components/carousel/ */
+.gallery-box{
+    background-color: #eee;
+    padding: 85px 0 1px 0;
+    margin-top: 0px;
+}
+.gallery-box h1{
+    text-align: center;
+    font-size: 40px;
+    margin-top: 0px !important;
+}
+.carousel{
+	width: 1000px;
+    margin-bottom: 200px;
+}
+.carousel-inner div{
+    padding-top: 0;
+}
+#logocontainer{
+    margin-bottom: 200px;
+}
+#tubular-shield{
+    z-index: 0 !important;
+}
+
+/* 기타 안내 사항 작성 */
+.ontop2 {
+    color:#fff;
+    font-size:1.5em;
+    padding: 130px 0;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.ontop2 h1{
+    color: #fff;
+    font-size: 2em;
+    text-align: center;
+    font-weight: bold;
+}
+table, tr, td{
+    text-align: center !important;
+    color:#000 !important;
+    font-size:1em !important;
+    padding-top:30px !important;
+}
+table, th{
+    text-align: center !important;
+    color:#000 !important;
+    font-size:1em !important;
+}
+
+tr.active th{
+	color:#fff !important;
+	background-color: darkgrey !important;
+	font-size:1em !important;
+	text-align: center;
+}
+.btn{
+	margin-top: 10px !important;
+}
+/* 푸터 작성 */
+.card-footer{
+    background: #000;
+}
+footer div p{
+    color: #fff;
+}
+
+
+/* tubular 적용 */
+#wrapper{
+    z-index: 1 !important;
+
+}
+
+.ontop{
+    color: #fff;
+    font-size: 2em;
+    padding: 300px 0 355px 50px;
+    text-align: left;
+}
+
+
+.ontop h5{
+    color: white;
+
+    padding: 0 0 0 80px;
+}
+

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- Page662 MemberMapper.xml 소스 코딩 : [중요] Mybatis의 ResultMap 활용 -->
+<!-- Page661, Page662 : 회원에 대한 정보는 MyBatis를 이용해서 처리할 것이므로 MemberMapper를 작성해서
+ tbl_member와 tbl_member_auth 테이블에 데이터를 추가하고, 조회할 수 있도록 작성합니다.
+ Member 객체를 가져오는 경우에는 한 번에 tbl_member와 tbl_member_auth를 조인해서 처리할 수 있는 방식으로
+ MyBatis의 ResultMap이라는 기능을 사용합니다.
+ 하나의 MemberVO 인스턴스는 내부적으로 여러 개의 AuthVO를 가지는데, 이를 흔히 '1+N 관계'라고 합니다.
+ 즉, 하나의 데이터가 여러 개의 하위 데이터를 포함하고 있는 것을 의미합니다.
+ MyBatis의 ResultMap을 이용하면 하나의 쿼리로 MemberVO와 내부의 AuthVO의 리스트까지 처리할 수 있습니다. -->
+<mapper namespace="org.zerock.mapper.MemberMapper">
+	<resultMap type="org.zerock.domain.MemberVO" id="memberMap">
+		<id property="userid" column="userid" />
+		<result property="userid" column="userid" />
+		<result property="userpw" column="userpw" />
+		<result property="userName" column="username" />
+		<result property="regDate" column="regdate" />
+		<result property="updateDate" column="updatedate" />
+		<collection property="authList" resultMap="authMap" ></collection>
+	</resultMap>
+	
+	<resultMap type="org.zerock.domain.AuthVO" id="authMap">
+		<result property="userid" column="userid" />
+		<result property="auth" column="auth" />	
+	</resultMap>
+	
+	<!-- id가 'read'인 select 태그는 resultMap 속성의 'memberMap'을 지정해 줍니다.  -->
+	<!-- 
+	SELECT mem.userid, userpw, username, enabled, regdate, updatedate, auth
+FROM tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
+WHERE mem.userid = 'admin90';
+ 	-->
+	<select id="read" resultMap="memberMap">
+	SELECT mem.userid, userpw, username, enabled, regdate, updatedate, auth
+FROM tbl_member mem LEFT OUTER JOIN tbl_member_auth auth on mem.userid = auth.userid
+WHERE mem.userid = #{userid}
+	</select>
+	
+	<!-- Page663 : 위의 실행 결과는 sqldeveloper에서 데이터베이스 조회(SELECT) 내용을 확인하고,
+	     다음 코딩으로 제작한 MemberMapperTests 클래스로 테스트 실행 확인을 해봅니다. -->
+	<!-- Page663 : 위의 실행 결과에서 'AUTH'의 값은 다를 수 있지만, 나머지 정보는 같게 됩니다.
+	     즉, 회원 정보는 MemberVO 하나이고, AuthVO는 2개가 되어야 하는 결과 입니다.
+	     memberMap이라는 이름을 가지는 resultMap 태그는 result 태그와 collection 태그를 이용해서
+	     바깥쪽 객체(MemberVO의 인스턴스)와 안쪽 객체들(AuthVO의 인스턴스)을 구성할 수 있습니다.
+	     MyBatis에서는 하나의 결과(Result)에 부가적으로 여러 개의 데이터를 처리하는 경우, 1:N의 결과를
+	     처리할 수 있는 resultMap 태그를 사용할 수 있습니다. -->
+	
+</mapper>

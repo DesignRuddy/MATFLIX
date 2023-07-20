@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+		
+	<!-- Root Context: defines shared resources visible to all other web components -->	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!-- 
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		 -->
+		 
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:orcl"></property>
+		
+		<property name="username" value="book_ex"></property>
+		<property name="password" value="book_ex"></property>
+	</bean>
+	
+	<!-- HikariCP configuration -->
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- Page 469 트랜잭션을 관리하는 빈(객체)을 등록해 줍니다. bean id 속성으로 transactionManager 설정해 줍니다. -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- Page469 어노테이션 기반으로 트랜잭션을 설정할 수 있도록 tx:annotation-driven 태그를 등록합니다.   -->
+	<tx:annotation-driven/>
+	
+	<mybatis-spring:scan base-package="org.zerock.mapper"/>
+	
+	<context:component-scan base-package="org.zerock.sample"></context:component-scan>
+	
+	<context:component-scan base-package="org.zerock.service"></context:component-scan>
+	
+	<!-- Page455 root-context xml 파일에 다음의 소스를 추가해 줍니다(시작) -->
+	<context:annotation-config></context:annotation-config>
+	<!-- 아래의 component-scan 태그에 의해서 LogAdvice가 스프링의 빈(객체)로 등록됨 -->
+	<context:component-scan base-package="org.zerock.aop"></context:component-scan>
+	<!-- aop:aspectj-autoproxy 태그를 이용해서 LogAdvice에 설정한
+	     @Before가 동작하게 됩니다. -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+	<!-- Page455 root-context xml 파일에 다음의 소스를 추가해 줍니다(끝) -->	
+	
+</beans>

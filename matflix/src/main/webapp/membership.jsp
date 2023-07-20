@@ -1,0 +1,320 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+	content="Disfruta de Netflix, películas y series en streaming en tu smart TV, consola, PC, Mac, móvil, tableta y más dispositivos." />
+<title>MATFLIX</title>
+<link rel="shortcut icon" href="resources/img/mlogo.svg"">
+<link href="resources/membership/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="canonical"
+	href="https://getbootstrap.com/docs/4.5/examples/floating-labels/">
+<link href="../assets/dist/css/bootstrap.css" rel="stylesheet">
+<link href="floating-labels.css" rel="stylesheet">
+<link href="resources/membership/css/style.css" rel="stylesheet" />
+</head>
+
+<body>
+	<main class="container-fluid">
+		<!---->
+		<section id="backGround">
+			<div class="container-fluid relative">
+				<header>
+					<a href="/main.jsp"> <img
+						src="resources/membership/img/matlogos.svg"
+						alt="Responsive image LOGO" class="img-fluid" /></a>
+					<a href="/customLogin"><button type="button" class="btn btn-danger">로그인</button></a>
+				</header>
+			</div>
+			<div class="jumbotron jumbotron-fluid relative mt-5">
+				<h1>이젠 맛있는 음식을 구독제로</h1>
+				<br>
+				<p class="lead">다양한 음식점에서 드세요. 언제든 해지하실 수 있습니다.</p>
+				<form method="POST" action="/action_page.php"
+					class="form-signin needs-validation" novalidate>
+					<div class="row no-gutters justify-content-center">
+						<div class="col-12 first">
+							<p>드실 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
+						</div>
+						<div class="col-12 col-lg-9 second form-label-group my-4">
+							<input type="email" id="inputEmail" class="form-control"
+								placeholder="Correo electrónico"
+								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" maxlength="50"
+								minlength="5" required>
+							<div class="valid-feedback">다음 단계로 이동합니다.</div>
+							<div class="invalid-feedback">이메일 주소를 넣어주세요.</div>
+							<label for="inputEmail">이메일 주소</label>
+						</div>
+						<div class="col-12 col-lg-3 third my-4">
+							<a href="/signup.jsp"><button class="suscribe">
+								시작하기<i class="arrow right"></i>
+							</button></a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+
+		<section>
+			<div class="container">
+				<h3>자주 묻는 질문</h3>
+				<div id="accordion" class="mb-5">
+					<div class="card">
+						<div class="card-header" id="headingOne">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseOne" aria-expanded="false"
+								aria-controls="collapseOne">
+								맛플릭스란 무엇인가요?
+								<svg viewBox="0 0 26 26" class="svg-icon svg-closed rotated"
+									focusable="true">
+                    <path
+										d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z"></path>
+                  </svg>
+							</button>
+						</div>
+						<div id="collapseOne" class="collapse show"
+							aria-labelledby="headingOne" data-parent="#accordion">
+							<div class="card-body">맛플릭스는 각종 수상 경력에 빛나는 레스토랑의 다양한 음식을 드실수 있는 구독 서비스입니다.
+								점심식사를 합리적인 가격으로 다양하게 즐길 수 있습니다. </div>
+							<div class="card-body"></div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingTwo">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseTwo" aria-expanded="false"
+								aria-controls="collapseTwo">
+								맛플릭스에서 어떤 음식을 먹을 수 있나요?
+								<svg viewBox="0 0 26 26" class="svg-icon svg-closed rotated"
+									focusable="true">
+                    <path
+										d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z"></path>
+                  </svg>
+							</button>
+						</div>
+						<div id="collapseTwo" class="collapse show"
+							aria-labelledby="headingTwo" data-parent="#accordion">
+							<div class="card-body">맛플릭스는 한식, 중식, 일식, 양식 등 수많은 레스토랑을 확보하고 있습니다. </div>
+						</div>
+					</div>
+
+					<div class="card">
+						<div class="card-header" id="headingThree">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseThree" aria-expanded="false"
+								aria-controls="collapseThree">
+								맛플릭스 요금은 얼마인가요?
+								<svg viewBox="0 0 26 26" class="svg-icon svg-closed rotated"
+									focusable="true">
+                    <path
+										d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z"></path>
+                  </svg>
+							</button>
+						</div>
+						<div id="collapseThree" class="collapse show"
+							aria-labelledby="headingThree" data-parent="#accordion">
+							<div class="card-body">맛플릭스의 월간 구독요금은 메인페이지에서 보실 수 있습니다.</div>
+							<div class="card-body"></div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingFour">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseFour" aria-expanded="true"
+								aria-controls="collapseFour">
+								어디서 먹을 수 있나요?
+								<svg viewBox="0 0 26 26" class="svg-icon svg-closed rotated"
+									focusable="true">
+                    <path
+										d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z"></path>
+                  </svg>
+							</button>
+						</div>
+						<div id="collapseFour" class="collapse show"
+							aria-labelledby="headingFour" data-parent="#accordion">
+							<div class="card-body">맛플릭스와 제휴한 가맹점에서 드실 수 있습니다. 추후 해외 레스토랑과도 제휴할 계획입니다.</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingFive">
+							<button class="btn btn-link" data-toggle="collapse"
+								data-target="#collapseFive" aria-expanded="true"
+								aria-controls="collapseFive">
+								멤버쉽을 해지하려면 어떻게 하나요?
+								<svg viewBox="0 0 26 26" class="svg-icon svg-closed rotated"
+									focusable="true">
+                    <path
+										d="M10.5 9.3L1.8 0.5 0.5 1.8 9.3 10.5 0.5 19.3 1.8 20.5 10.5 11.8 19.3 20.5 20.5 19.3 11.8 10.5 20.5 1.8 19.3 0.5 10.5 9.3Z"></path>
+                  </svg>
+							</button>
+						</div>
+						<div id="collapseFive" class="collapse show"
+							aria-labelledby="headingFive" data-parent="#accordion">
+							<div class="card-body">맛플릭스는 해지가 간편합니다. 성가신 계약도, 약정도
+								없으니까요. 멤버십 해지도 온라인에서 클릭 두 번이면 완료할 수 있습니다. 해지 수수료도 없으니 원할 때 언제든
+								계정을 시작하거나 종료하세요.</div>
+						</div>
+					</div>
+				</div>
+				<form method="POST" action="/action_page.php"
+					class="form-signin needs-validation" novalidate>
+					<div class="row no-gutters justify-content-center">
+						<div class="col-12 first">
+							<p>드실 준비가 되셨나요? 멤버십을 등록하거나 재시작하려면 이메일 주소를 입력하세요.</p>
+						</div>
+						<div class="col-12 col-lg-9 second form-label-group my-4">
+							<input type="email" id="inEmail" class="form-control"
+								placeholder="Correo electrónico"
+								pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" maxlength="50"
+								minlength="5" required>
+							<div class="valid-feedback">다음 단계로 이동합니다.</div>
+							<div class="invalid-feedback">이메일 주소를 넣어주세요.</div>
+							<label for="inEmail">이메일 주소</label>
+						</div>
+						<div class="col-12 col-lg-3 third my-4">
+						<a href="/signup.jsp"><button class="suscribe" type="submit">
+								시작하기<i class="arrow right"></i>
+							</button></a>
+						</div>
+					</div>
+				</form>
+			</div>
+		</section>
+	</main>
+	<!---footer---------->
+	<footer class="page-footer font-small blue text-muted">
+		<div class="container text-left">
+			<div class="row justify-content-space-between">
+				<div class="col-12 mt-5 mb-2">
+					<p class="h5 text-capitalize">질문이 있으신가요? 문의 전화: 하이미디어컴퓨터학원
+						구로캠퍼스(02-3667-0008)</p>
+				</div>
+				<hr class="clearfix w-100 d-md-none pb-3" />
+				<div class="col-6 col-sm-4 col-md-3">
+					<ul class="list-unstyled articles mb-4">
+						<li><a href="/map.jsp">찾아 오시는 길</a></li>
+						<li><a href="#">입사 정보</a></li>
+
+					</ul>
+				</div>
+				<div class="col-6 col-sm-4 col-md-3">
+					<ul class="list-unstyled articles mb-4">
+						<li><a href="#">고객센터</a></li>
+						<li><a href="#">이용 약관</a></li>
+
+					</ul>
+				</div>
+				<div class="col-6 col-sm-4 col-md-3">
+					<ul class="list-unstyled articles mb-4">
+						<li><a href="#">계정</a></li>
+						<li><a href="#">개인정보 처리방침</a></li>
+
+					</ul>
+				</div>
+				<div class="col-6 col-sm-4 col-md-3">
+					<ul class="list-unstyled articles mb-4">
+						<li><a href="#">투자 정보(IR)</a></li>
+						<li><a href="#">법적 고지</a></li>
+
+					</ul>
+				</div>
+
+			</div>
+
+			<div class="dropdown">
+				<button class="btn language dropdown-toggle text-left" type="button"
+					id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+					aria-expanded="false">
+					<span class="globe"> &#127770;</span>한국어
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<a class="dropdown-item" href="#">한국어</a> <a class="dropdown-item"
+						href="#">English</a>
+				</div>
+			</div>
+			<p class="footer-copyright pt-5 pb-2 font-weight-lighter text-muted">
+				맛플릭스 코리아</p>
+		</div>
+	</footer>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script src="resources/membership/js/bootstrap.bundle.min.js"></script>
+	<script src="resources/membership/js/main.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		body {
+			font-size: 12px;
+		}
+
+		input {
+			vertical-align: middle;
+		}
+
+		#notice_wrap {
+			width: 400px;
+			position: absolute;
+			right: 100px;
+			top: 110px;
+			box-shadow: 0 0 0 #fff;
+		}
+
+		.closeWrap {
+			background-color: #000;
+			color: #fff;
+			text-align: right;
+			padding: 5px 10px;
+		}
+
+		.closeWrap button {
+			margin-left: 20px;
+			cursor: pointer;
+		}
+	</style>
+	<script src="resources/popup/js/jquery.js"></script>
+	<script src="resources/popup/js/jquery.cookie.js"></script>
+	<!-- https://cdnjs.com/libraries/jquery-cookie -->
+	<script>
+		// jquery-cookie 플러그인을 사용하면 간편하게 쿠키(cookie)를 생성하고
+		// 쿠키 만료일을 설정할 수 있습니다. 쿠키란 '사이트를 방문한 사용자의
+		// 소량(4kb이하) 브라우저 정보를 저장할 수 있는 공간'을 말합니다.
+		// 쿠키는 하나의 도메인당 최대 20개를 생성할 수 있고,
+		// 최대 4kb까지 저장할 수 있습니다.
+		$(function () {
+			// 쿠키("popup")의 값이 "none"이면 id값이 "notice_wrap" 인 요소를 숨깁니다.
+			if ($.cookie("popup") == "none") {
+				$("#notice_wrap").hide();
+			}
+			// class값이 "closeBtn"인 요소를 클릭하면 체크박스의 체크 유무에 따라 쿠키를 생성하여 3일간만 저장합니다.
+			var $expiresChk = $("#expiresChk");
+			$(".closeBtn").on("click", closePop);
+			function closePop() {
+				if ($expiresChk.is(":checked")) {
+					$.cookie("popup", "none", { expires: 3, path: "/" });
+				}
+				$("#notice_wrap").fadeOut("fast");
+			}
+		});
+	</script>
+</head>
+
+<body>
+	<div id="notice_wrap">
+		<img src="resources/membership/img/mem_event.jpg" alt="공지사항" style="width:400px";>
+		<p class="closeWrap">
+			<input type="checkbox" name="expiresChk" id="expiresChk">
+			<label for="expiresChk">3일 동안 이 창 열지않기</label>
+			<button class="closeBtn">닫기</button>
+		</p>
+	</div>
+</body>
+</body>
+</html>

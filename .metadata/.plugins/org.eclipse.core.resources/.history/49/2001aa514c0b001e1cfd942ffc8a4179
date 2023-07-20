@@ -1,0 +1,613 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MATFLIX</title>
+
+<script src="resources/popup/js/jquery.js"></script>
+<script src="resources/popup/js/jquery.cookie.js"></script>
+<!-- https://cdnjs.com/libraries/jquery-cookie -->
+<script>
+	// jquery-cookie 플러그인을 사용하면 간편하게 쿠키(cookie)를 생성하고
+	// 쿠키 만료일을 설정할 수 있습니다. 쿠키란 '사이트를 방문한 사용자의
+	// 소량(4kb이하) 브라우저 정보를 저장할 수 있는 공간'을 말합니다.
+	// 쿠키는 하나의 도메인당 최대 20개를 생성할 수 있고,
+	// 최대 4kb까지 저장할 수 있습니다.
+	$(function() {
+		// 쿠키("popup")의 값이 "none"이면 id값이 "notice_wrap" 인 요소를 숨깁니다.
+		if ($.cookie("popup") == "none") {
+			$("#notice_wrap").hide();
+		}
+		// class값이 "closeBtn"인 요소를 클릭하면 체크박스의 체크 유무에 따라 쿠키를 생성하여 3일간만 저장합니다.
+		var $expiresChk = $("#expiresChk");
+		$(".closeBtn").on("click", closePop);
+		function closePop() {
+			if ($expiresChk.is(":checked")) {
+				$.cookie("popup", "none", {
+					expires : 3,
+					path : "/"
+				});
+			}
+			$("#notice_wrap").fadeOut("fast");
+		}
+	});
+</script>
+<link rel="stylesheet" href="resources/main/css/bootstrap.min.css">
+<link rel="stylesheet" href="resources/main/css/mystyle.css">
+<script src="resources/main/javascript/jquery-2.2.4.min.js"></script>
+<script src="resources/main/javascript/bootstrap.min.js"></script>
+<link rel="shortcut icon" href="resources/img/mlogo.svg">
+
+<!-- 결제 스크립트 시작 -->
+<!-- https://portone.gitbook.io/docs/sdk/javascript-sdk-old -->
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+
+
+<script type="text/javascript">
+
+function fn_buy1() {
+	var IMP = window.IMP;
+	<!-- https://github.com/iamport/iamport-manual/blob/master/인증결제/README.md#pc-mobile -->
+	IMP.init('imp08681661'); //portone 대신 자신의 "가맹점 식별코드"를 사용하시면 됩니다
+	// IMP.request_pay(param, callback) 결제창 호출
+	IMP.request_pay({
+		pg: 'html5_inicis',
+		pay_method: 'card',
+		merchant_uid : 'merchant_' + new Date().getTime(),
+		name : '결제테스트',
+		amount : 109000,
+		buyer_email : 'romikiju1@gmail.com',
+		buyer_name : '장나라',
+		buyer_tel : '010-1234-5678',
+		buyer_addr : '서울특별시 강남구 삼성동',
+		buyer_postcode : '123-456',
+		m_redirect_url : '/paymentDone.do'
+	}, function(rsp) {  // callback
+		
+		if ( rsp.success ) {
+			var paymentInfo = {
+				imp_uid : rsp.imp_uid,
+				merchant_uid : rsp.merchant_uid,
+				paid_amount : rsp.paid_amount,
+				apply_num : rsp.apply_num,
+				paid_at : new Date()
+		};
+			
+		$.ajax({
+			url : "/paymentProcess.do",
+			method : "post",
+			contentType : "application/json",
+			data : JSON.stringify(paymentInfo),
+			success:function(data, textStatus){
+				console.log(paymentInfo);
+				location.href = "/paymentDone.do";
+			},
+			error : function(e) {
+				console.log(e);
+			}			
+		});		
+		
+		} else {
+			alert("결제 실패 : " + rsp.error_msg)
+		}
+	});	
+}
+
+function fn_buy2() {
+	var IMP = window.IMP;
+	<!-- https://github.com/iamport/iamport-manual/blob/master/인증결제/README.md#pc-mobile -->
+	IMP.init('imp08681661'); //portone 대신 자신의 "가맹점 식별코드"를 사용하시면 됩니다
+	// IMP.request_pay(param, callback) 결제창 호출
+	IMP.request_pay({
+		pg: 'html5_inicis',
+		pay_method: 'card',
+		merchant_uid : 'merchant_' + new Date().getTime(),
+		name : '결제테스트',
+		amount : 159000,
+		buyer_email : 'romikiju1@gmail.com',
+		buyer_name : '장나라',
+		buyer_tel : '010-1234-5678',
+		buyer_addr : '서울특별시 강남구 삼성동',
+		buyer_postcode : '123-456',
+		m_redirect_url : '/paymentDone.do'
+	}, function(rsp) {  // callback
+		
+		if ( rsp.success ) {
+			var paymentInfo = {
+				imp_uid : rsp.imp_uid,
+				merchant_uid : rsp.merchant_uid,
+				paid_amount : rsp.paid_amount,
+				apply_num : rsp.apply_num,
+				paid_at : new Date()
+		};
+			
+		$.ajax({
+			url : "/paymentProcess.do",
+			method : "post",
+			contentType : "application/json",
+			data : JSON.stringify(paymentInfo),
+			success:function(data, textStatus){
+				console.log(paymentInfo);
+				location.href = "/paymentDone.do";
+			},
+			error : function(e) {
+				console.log(e);
+			}			
+		});		
+		
+		} else {
+			alert("결제 실패 : " + rsp.error_msg)
+		}
+	});	
+}
+
+function fn_buy3() {
+	var IMP = window.IMP;
+	<!-- https://github.com/iamport/iamport-manual/blob/master/인증결제/README.md#pc-mobile -->
+	IMP.init('imp08681661'); //portone 대신 자신의 "가맹점 식별코드"를 사용하시면 됩니다
+	// IMP.request_pay(param, callback) 결제창 호출
+	IMP.request_pay({
+		pg: 'html5_inicis',
+		pay_method: 'card',
+		merchant_uid : 'merchant_' + new Date().getTime(),
+		name : '결제테스트',
+		amount : 199000,
+		buyer_email : 'romikiju1@gmail.com',
+		buyer_name : '장나라',
+		buyer_tel : '010-1234-5678',
+		buyer_addr : '서울특별시 강남구 삼성동',
+		buyer_postcode : '123-456',
+		m_redirect_url : '/paymentDone.do'
+	}, function(rsp) {  // callback
+		
+		if ( rsp.success ) {
+			var paymentInfo = {
+				imp_uid : rsp.imp_uid,
+				merchant_uid : rsp.merchant_uid,
+				paid_amount : rsp.paid_amount,
+				apply_num : rsp.apply_num,
+				paid_at : new Date()
+		};
+			
+		$.ajax({
+			url : "/paymentProcess.do",
+			method : "post",
+			contentType : "application/json",
+			data : JSON.stringify(paymentInfo),
+			success:function(data, textStatus){
+				console.log(paymentInfo);
+				location.href = "/paymentDone.do";
+			},
+			error : function(e) {
+				console.log(e);
+			}			
+		});		
+		
+		} else {
+			alert("결제 실패 : " + rsp.error_msg)
+		}
+	});	
+}
+</script>
+
+<!-- Stylesheets -->
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,400italic,300italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="resources/assets/css/docs.theme.min.css">
+
+    <!-- Owl Stylesheets -->
+    <link rel="stylesheet" href="resources/assets/owlcarousel/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="resources/assets/owlcarousel/assets/owl.theme.default.min.css">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="resources/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="resources/assets/ico/favicon.png">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <!-- Yeah i know js should not be in header. Its required for demos.-->
+
+    <!-- javascript -->
+    <script src="resources/assets/vendors/jquery.min.js"></script>
+    <script src="resources/assets/owlcarousel/owl.carousel.js"></script>
+
+</head>
+<body>
+
+	<div id="top"></div>
+	<!-- sticky-top 적용 : https://getbootstrap.com/docs/4.0/utilities/position/ -->
+	<div class="mybox sticky-top">
+		<!-- 네비게이션 바 navbar-example2 활용 : https://getbootstrap.com/docs/4.0/components/scrollspy/#one -->
+
+		<nav class="navbar navbar-expand-lg navbar-light container">
+			<!-- 로고 작성 -->
+			<a class="navbar-brand" href=""> <img
+				src="resources/main/images/mlogo.svg" alt="" style="width:70px;">
+				<p></p>
+			</a>
+			<!-- https://getbootstrap.com/docs/4.0/components/navbar/ -->
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active"><a class="nav-link"
+						href="/profile.jsp">Matflix</a></li>
+					<li class="nav-item"><a class="nav-link" href="#first">Restaurants</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#second">Popularity</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="#third">Subscribe</a>
+					</li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Community </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/b_loading.jsp">공지사항 게시판</a> <a
+								class="dropdown-item" href="/board2/list">자유 게시판</a> <a
+								class="dropdown-item" href="/board/list">상담 게시판</a> <a
+								class="dropdown-item" href="/board/list">문의/Q&A 게시판</a> <a
+								class="dropdown-item" href="/board/list">커뮤니티 게시판</a> <a
+								class="dropdown-item" href="/board/list">상품 홍보/이벤트 게시판</a>
+						</div></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+						role="button" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false"> Membership </a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/customLogin">Log in</a> <a
+								class="dropdown-item" href="/membership.jsp">Sign up</a> <a
+								class="dropdown-item" href="/mypage.jsp">My Page</a>
+						</div></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+
+	<div id="wrapper" data-spy="scroll" data-target="#navbar-example2"
+		data-offset="0">
+		<div>
+			<div class="ontop">
+				<!-- h1>lorem2 -->
+				<h1>
+					<img src="resources/main/images/matlogos.svg" alt="">
+				</h1>
+				<!-- h4>lorem10 -->
+				<h5>The first famous restaurant OTT service</h5>
+			</div>
+		</div>
+
+		<!-- 서브 텍스트 내용 작성 -->
+		<!-- https://getbootstrap.com/docs/4.0/layout/grid/ -->
+		<div class="section col col-lg-12" id="first">
+			<div class="container">
+				<div class="row">
+		<div class="large-12 columns">
+		<h1 class="guro">Franchise in Guro</h1>
+          <div class="owl-carousel owl-theme">
+          
+            <div class="item">
+             <img src="resources/main/images/mat-1.jpg" style="width:300px;">
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-2.jpg"><img src="resources/main/images/mat-2.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-3.jpg"><img src="resources/main/images/mat-3.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-4.jpg"><img src="resources/main/images/mat-4.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-5.jpg"><img src="resources/main/images/mat-5.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-8.jpg"><img src="resources/main/images/mat-8.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-9.jpg"><img src="resources/main/images/mat-9.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/mat-10.jpg"><img src="resources/main/images/mat-10.jpg" style="width:300px;"></a>
+            </div>
+            </div>
+            <div class="modal1">
+         <button>&times;</button>
+         <div class="modalBox1">
+         <img src="resources/main/images/mat-1.jpg" style="width:600px;" alt="">
+         <p>sdfa</p>
+      </div>
+            </div>
+          
+ 
+          <h1 class="guro">Franchise in Seoul</h1>
+          <div class="owl-carousel owl-theme">
+            <div class="modal1">
+              <img src="resources/main/images/mat-1.jpg" style="width:300px;">
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-2.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-3.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-4.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-5.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-8.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-9.jpg" style="width:300px;"></a>
+            </div>
+            <div class="item">
+              <a href="resources/main/images/city-1.jpg"><img src="resources/main/images/mat-10.jpg" style="width:300px;"></a>
+            </div>
+            </div>
+            <div class="modal1">
+         <button>&times;</button>
+         <div class="modalBox1">
+         <img src="resources/main/images/mat-2.jpg" style="width:600px;" >
+         <p></p>
+      </div>
+      
+            </div>
+                <!-- 식당 이미지 모달창 script  -->
+   <script>
+   $(function(){
+//    이미지 클릭시 해당 이미지 모달
+   $(".item").click(function(){
+      $(".modal1").show();
+      // 해당 이미지 가겨오기
+      var imgSrc = $(this).children("img").attr("src");
+      var imgAlt = $(this).children("img").attr("alt");
+      $(".modalBox1 img").attr("src", imgSrc);
+      $(".modalBox1 img").attr("alt", imgAlt);
+      
+      
+      // 해당 이미지 텍스트 가져오기
+      var imgTit =  $(this).children("p").text();
+      $(".modalBox1 p").text(imgTit);
+      
+   // 해당 이미지에 alt값을 가져와 제목으로
+      $(".modalBox1 p").text(imgAlt);
+   });
+   
+   //.modal안에 button을 클릭하면 .modal닫기
+   $(".modal1 button").click(function(){
+      $(".modal1").hide();
+   });
+   
+   //.modal밖에 클릭시 닫힘
+   $(".modal1").click(function (e) {
+    if (e.target.className != "modal1") {
+      return false;
+    } else {
+      $(".modal1").hide();
+    }
+  });
+});
+   </script>
+
+          <script>
+            $(document).ready(function() {
+              var owl = $('.owl-carousel');
+              owl.owlCarousel({
+                items: 4,
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 1000,
+                autoplayHoverPause: true
+              });
+              $('.play').on('click', function() {
+                owl.trigger('play.owl.autoplay', [1000])
+              })
+              $('.stop').on('click', function() {
+                owl.trigger('stop.owl.autoplay')
+              })
+            })
+          </script>
+
+	
+        </div>
+</div>
+			</div>
+		</div>
+		
+		<script src="resources/assets/vendors/highlight.js"></script>
+    <script src="resources/assets/js/app.js"></script>
+
+		<!-- 갤러리 이미지 carousel 적용 : https://getbootstrap.com/docs/4.6/components/carousel/ -->
+		<div class="gallery-box" id="second">
+			<h1>Popular Restaurants</h1>
+			<div id="carouselExampleCaptions" class="carousel slide container"
+				data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carouselExampleCaptions" data-slide-to="0"
+						class="active"></li>
+					<li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+					<li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+					<li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+				</ol>
+				<div class="carousel-inner">
+					<div class="carousel-item active">
+						<a href="resources/main/images/re1.jpg"><img src="resources/main/images/re1.jpg" class="d-block w-100"
+							alt="도시1"></a>
+					</div>
+					<div class="carousel-item">
+						<a href="resources/main/images/re2.jpg"><img src="resources/main/images/re2.jpg" class="d-block w-100"
+							alt="도시2"></a>
+					</div>
+					<div class="carousel-item">
+						<a href="resources/main/images/city-3.jpg"><img src="resources/main/images/city-3.jpg" class="d-block w-100"
+							alt="도시3"></a>
+					</div>
+					<div class="carousel-item">
+						<a href="resources/main/images/city-4.jpg"><img src="resources/main/images/city-4.jpg" class="d-block w-100"
+							alt="도시4"></a>
+					</div>
+				</div>
+
+				<a class="carousel-control-prev"
+					data-target="#carouselExampleCaptions" data-slide="prev"> <span
+					class="carousel-control-prev-icon" aria-hidden="true"></span> <span
+					class="sr-only">Previous</span>
+				</a> <a class="carousel-control-next" type="button"
+					data-target="#carouselExampleCaptions" data-slide="next"> <span
+					class="carousel-control-next-icon" aria-hidden="true"></span> <span
+					class="sr-only">Next</span>
+				</a>
+			</div>
+			<!-- gallery-box 적용 -->
+		</div>
+
+
+		<!-- 기타 안내 사항 작성 -->
+		<div>
+			<div class="ontop2" id="third">
+				<h1>Subscription Fee</h1>
+				<br>
+				<div class="container table-responsive">
+					<table class="table table-bordered">
+						<!-- tr>th*3 -->
+						<tr class="active">
+							<th>Plans</th>
+							<th>Meal's Price Range</th>
+							<th>Available Time</th>
+							<th>Fee</th>
+							<th>Subscribes</th>
+						</tr>
+						<tr>
+							<td>Light</td>
+							<td>Restaurants in Guro-gu
+								<br><br>(Price ￦ 5,000 ~ ￦ 7,000)
+							</td>
+							<td>12:00 ~ 13:00</td>
+							<td>￦ 109,000</td>
+							<td><button type="button" onclick="fn_buy1()" class="btn btn-info">결제하기</button></td>
+						</tr>
+						<tr>
+							<td>Standard</td>
+							<td>Restaurants in Guro-gu
+								<br><br>(Price ￦ 5,000 ~ ￦ 10,000)
+							</td>
+							<td>12:00 ~ 13:00</td>
+							<td>￦ 159,000</td>
+							<td><button type="button" onclick="fn_buy2()" class="btn btn-danger">결제하기</button></td>
+						</tr>
+						<tr>
+							<td>Premium</td>
+							<td>Restaurants in Guro-gu
+								<br><br>(Price ￦ 5,000 ~ ￦ 15,000)
+							</td>
+							<td>12:00 ~ 13:00
+							</td>
+							<td>￦ 199,000</td>
+							<td><button type="button" onclick="fn_buy3()" class="btn btn-primary">결제하기</button></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- 푸터 작성 -->
+		<footer class="card-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<p>
+							MATFLIX <br> 서울시 구로구 경인로 557 신한은행 4층 하이미디어컴퓨터학원 구로캠퍼스 대표전화:
+							02-3667-0008 <br> COPYRIGHT &copy; by Matflix. ALL RIGHTS
+							RESERVED
+						</p>
+					</div>
+				</div>
+			</div>
+		</footer>
+
+		<!-- top 버튼 -->
+		<button type="button" style="position: fixed; left: 20px; bottom: 20px; border: none; background: none;">
+			<a href="#top" class="btn btn-outline-secondary"><img src="resources/main/images/airplane-fill.svg" /></a>
+		</button>
+		
+	</div>
+	<!-- wrapper 적용 -->
+
+	<!-- tubular 적용 -->
+	<script src="resources/main/javascript/jquery.tubular.1.0.js"></script>
+	<script>
+		$('document').ready(function() {
+			var options = {
+				videoId : 'F3zw1Gvn4Mk',
+				// mute는 동영상 실행 시 음소거 설정 기능입니다!
+				mute : true
+			};
+			$('#wrapper').tubular(options);
+		});
+	</script>
+	<script>
+		(function() {
+			var w = window;
+			if (w.ChannelIO) {
+				return w.console.error("ChannelIO script included twice.");
+			}
+			var ch = function() {
+				ch.c(arguments);
+			};
+			ch.q = [];
+			ch.c = function(args) {
+				ch.q.push(args);
+			};
+			w.ChannelIO = ch;
+			function l() {
+				if (w.ChannelIOInitialized) {
+					return;
+				}
+				w.ChannelIOInitialized = true;
+				var s = document.createElement("script");
+				s.type = "text/javascript";
+				s.async = true;
+				s.src = "https://cdn.channel.io/plugin/ch-plugin-web.js";
+				var x = document.getElementsByTagName("script")[0];
+				if (x.parentNode) {
+					x.parentNode.insertBefore(s, x);
+				}
+			}
+			if (document.readyState === "complete") {
+				l();
+			} else {
+				w.addEventListener("DOMContentLoaded", l);
+				w.addEventListener("load", l);
+			}
+		})();
+
+		ChannelIO('boot', {
+			"pluginKey" : "929c67b4-ec76-4082-9b38-6f8e7dfc9066"
+		});
+	</script>
+	
+
+</body>
+</html>

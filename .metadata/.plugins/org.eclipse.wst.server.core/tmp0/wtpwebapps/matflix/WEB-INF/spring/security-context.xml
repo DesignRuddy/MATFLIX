@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Page610 아래는 스프링 시큐리티 네임스페이스 수정 적용했음 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!-- Page630 아래 1줄 소스 추가 코딩해 줌. security-context.xml에 다음과 같이
+     error-page 속성 대신에 CustomAccessDeniedHandler를 빈(bean)으로 등록해서 사용합니다.  -->
+<bean id="customAccessDenied" class="org.zerock.security.CustomAccessDeniedHandler"></bean>
+
+<!-- Page639 security-context.xml에 CustomLoginSuccessHandler를 빈으로 등록하고
+     로그인 성공 후 처리를 담당하는 핸들러로 지정합니다. -->
+<!-- Page711 아래 소스 코드 확인함. CustomLoginSuccessHandler.java 소스 수정 및 확인 필요함 -->
+<bean id="customLoginSuccess" class="org.zerock.security.CustomLoginSuccessHandler"></bean>
+
+<!-- Page649 security-context.xml에 CustomNoOpPasswordEncoder 클래스를 빈으로 등록 합니다. -->
+<!-- Page652 소스 코딩할 때, 아래 1줄 소스는 주석 처리해 줌 -->
+<!-- 
+<bean id="customPasswordEncoder" class="org.zerock.security.CustomNoOpPasswordEncoder"></bean>
+ -->
+ <!-- Page652 아래 1줄 소스 코딩 추가해 줌 -->
+ <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>     
+
+<!-- Page667 CustomUserDetailsService 클래스를 security-context.xml에 스프링의 빈으로 등록 코딩함 -->
+<bean id="customUserDetailsService" class="org.zerock.security.CustomUserDetailsService"></bean>
+
+	<security:http>
+
+	<!-- Page618 security-context.xml에 접근 제한 설정 -->
+	<!-- 특정한 URI에 접근할 때 인터셉터를 이용해서 접근을 제한하는 설정은
+	     security:intercept-url 태그를 이용합니다.
+	         이 태그는 pattern이라는 속성과 access라는 속성을 지정해야만 합니다.
+	     pattern 속성은 URI의 패턴을 의미하고, access의 경우는 권한을 체크합니다.
+	         아래의 소스에서 /sample/member 라는 URI의 경우,
+	     'ROLE_MEMBER'라는 권한이 있는 사용자만이 접근할 수 있습니다.
+	     access의 속성값으로 사용되는 문자열은 1) 표현식과 2) 권한명을 의미하는 문자열을 이용할 수 있습니다.
+	     security:http 태그는 기본 설정이 표현식을 이용하는 것입니다. 만약
+	         단순한 문자열만을 이용하고 싶은 경우에는 use-expressions="false"를 지정하면 됩니다.
+	         보통 표현식을 사용하는 방식이 권장되므로, 우리는 표현식을 사용하는 방식으로 소스 코딩을 할 것입니다.-->
+		<security:intercept-url pattern="/sample/all" access="permitAll" />		
+		<security:intercept-url pattern="/sample/member" access="hasRole('ROLE_MEMBER')" />	
+			<!-- Page624 : security:intercept-url 태그에 아래와 같이 /sample/admin에 대한 접근 설정도 추가해 줍니다. -->	
+			<security:intercept-url pattern="/sample/admin" access="hasRole('ROLE_ADMIN')"/>
+			
+			<!-- Page626 security:access-denied-handler 태그는
+org.springframework.security.web.access.AccessDeniedHandler 인터페이스의 구현체를
+         지정하거나 error-page를 지정할 수 있습니다. 다음은 '/accessError'라는 URI로 접근 제한 시
+	         보이는 화면을 처리하도록 설정해 줍니다. -->
+	<!-- Page630 소스 코딩할 때 아래 1줄 소스는 주석 처리해 줍니다. -->
+	<!-- 
+	<security:access-denied-handler error-page="/accessError"/>
+	-->
+	<!-- Page630 아래 1줄 소스 추가 코딩해 줌. security:access-denied-handler 태그는
+	  error-page 속성과 ref 속성 둘 중 하나만을 사용합니다. 이번에는 ref 속성을 활용합니다.  -->
+	<security:access-denied-handler ref="customAccessDenied" />
+		
+		<!-- Page631 기존 시큐리티 로그인 기능 설정 아래 1줄은 소스 주석 처리합니다.
+  		         사용자 정의 시큐리티 로그인 방식을 적용하기 위해서 입니다.  -->
+  		<!-- 
+		<security:form-login/>
+		 -->	
+		<!-- Page631 login-page 속성의 URI는 반드시 GET 방식으로 접근하는 URI(자원식별자)를 지정합니다. -->
+		<!-- Page639 소스 코딩할 때, 아래 1줄 소스는 주석 처리해 줌. -->
+		<!-- 
+		<security:form-login login-page="/customLogin" />
+		 -->	
+  	    <!-- Page711 아래 소스 코드 확인함 -->	
+		<security:form-login login-page="/customLogin" authentication-success-handler-ref="customLoginSuccess" />
+		 
+<!-- Page637 31.4.2 스프링 시큐리티의 CSRF 설정 : CSRF 비활성화 설정(아래 1줄 코드는 주석 처리함) -->
+	<!-- 
+	<security:csrf disabled="true"/>
+	 -->
+	 
+	 <!-- Page640 31.6 로그아웃의 처리와 LogoutSuccessHandler 소스 코딩
+	  로그인과 마찬가지로 특정한 URI(자원 식별자)를 지정하고, 로그아웃 처리 후 직접 로직을 처리할 수 있는
+	  핸들러를 등록할 수 있습니다.
+	  Page640 로그아웃 시 세션을 무효화 시키는 설정이나 특정한 쿠키를 지우는 작업을 지정할 수 있습니다.-->
+	  <!-- Page681 소스 코딩할 때, 아래 1줄 소스는 주석 처리해 줌 -->
+	  <!-- 
+	  <security:logout logout-url="/customLogout" invalidate-session="true" />
+	   -->
+	  
+	 <!-- Page678 자동로그인(remember-me) 설정
+	      token-validity-seconds는 쿠키의 유효시간을 지정합니다.
+	      604800 = 60초 * 60분 * 24시간 * 7일 -->
+	 <security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" />
+	 
+	 	<!-- Page681 자동로그인(remember-me) 로그아웃 설정 -->
+	<!-- 별도의 설정이 없었다면  자동 로그인에서 사용한 쿠키의 이름은 'remember-me' 였을 것이고,
+	     Tomcat을 통해서 실행되고 있었다면 WAS가 발행하는 쿠키의 이름은 'JSESSIONID'입니다.
+	     Tomcat 등이 발행하는 쿠키는 굳이 지정할 필요가 없지만 관련된 모든 쿠키를 같이 삭제하는것을 권장합니다-->
+	<security:logout logout-url="/customLogout" invalidate-session="true" delete-cookies="remember-me, JSESSIONID"/>
+
+	</security:http>
+	
+	<security:authentication-manager>
+		<!-- Page667 아래 1줄 소스에  user-service-ref="customUserDetailsService" 추가 코딩해 줌-->	
+		<security:authentication-provider user-service-ref="customUserDetailsService">	
+			<!-- Page645 jdbc-user-service는 기본적으로 DataSource가 필요하므로
+                 root-context.xml에 있는 설정을 추가합니다. -->	
+            
+            <!-- Page657 소스 코딩할 때, 아래 1줄 소스 주석 처리함 -->
+            <!-- 
+			<security:jdbc-user-service data-source-ref="dataSource"/>
+			 -->
+			 <!-- Page657 user-by-username-query SQL 조회 확인 -->
+			 <!-- 
+			 select userid username, userpw password, enabled
+from tbl_member where userid = 'admin90';
+			  -->
+			  <!-- Page657 authorities-by-username-query SQL 조회 확인 -->
+			  <!-- 
+			  select userid username, auth authority
+from tbl_member_auth where userid = 'admin90';
+			   -->
+			   <!-- Page667 user-service-ref 속성 적용할 때 아래 태그 소스는 주석 처리함 -->
+			   <!-- 
+			<security:jdbc-user-service data-source-ref="dataSource"
+			  users-by-username-query="select userid username, userpw password, enabled	from tbl_member where userid = ? "
+			  authorities-by-username-query="select userid username, auth authority
+from tbl_member_auth where userid = ? "	/>
+			-->			
+			
+			<!-- Page652 소스 코딩할 때, 아래 1줄 주석 처리함 -->
+			<!-- 
+			<security:password-encoder ref="customPasswordEncoder"/>
+			 -->
+			 <!-- Page652 아래 1줄 소스 코딩 추가해 줌 -->
+			 <security:password-encoder ref="bcryptPasswordEncoder"/>
+			
+		</security:authentication-provider>	
+	
+	</security:authentication-manager>
+
+</beans>

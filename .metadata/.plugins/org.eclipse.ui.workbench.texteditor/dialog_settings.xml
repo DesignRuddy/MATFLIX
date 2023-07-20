@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.jst.jsp.ui.internal.preferences.ui.JSPTemplatePreferencePage$JSPEditTemplateDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="196"/>
+		<item key="DIALOG_Y_ORIGIN" value="5"/>
+		<item key="DIALOG_WIDTH" value="612"/>
+		<item key="DIALOG_HEIGHT" value="436"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="org.eclipse.wst.html.ui.internal.preferences.ui.HTMLTemplatePreferencePage$HTMLEditTemplateDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="-305"/>
+		<item key="DIALOG_Y_ORIGIN" value="59"/>
+		<item key="DIALOG_WIDTH" value="895"/>
+		<item key="DIALOG_HEIGHT" value="512"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="selection" value="margin-left"/>
+		<item key="wrap" value="true"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<list key="findhistory">
+			<item value="margin-left"/>
+			<item value="ul"/>
+			<item value="navbar-brand"/>
+			<item value="brand"/>
+			<item value="logo"/>
+			<item value="height:"/>
+			<item value="height: auto;"/>
+			<item value="max-width:"/>
+			<item value="max-width: 100%"/>
+			<item value="max-width: 100%;&#x0A;"/>
+			<item value="img {&#x0A;max-width: 100%;&#x0A;    height: auto&#x0A;}"/>
+			<item value="img {&#x0A;    max-width: 100%;&#x0A;    height: auto&#x0A;}"/>
+			<item value="max-width:100%"/>
+			<item value="max-width"/>
+			<item value="ontop"/>
+		</list>
+		<list key="replacehistory">
+			<item value="BoardVO"/>
+			<item value="boardVO"/>
+			<item value="pk_board"/>
+			<item value="idx_reply"/>
+			<item value="fk_reply_board"/>
+			<item value="pk_reply"/>
+			<item value="tbl_reply"/>
+			<item value="seq_reply"/>
+			<item value="tbl_board"/>
+			<item value="seq_board"/>
+			<item value="board"/>
+			<item value="board2"/>
+			<item value="zerock2"/>
+			<item value="가맹점 이름"/>
+			<item value="/resources/"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="438"/>
+		<item key="DIALOG_Y_ORIGIN" value="319"/>
+		<item key="DIALOG_WIDTH" value="1011"/>
+		<item key="DIALOG_HEIGHT" value="391"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+</section>

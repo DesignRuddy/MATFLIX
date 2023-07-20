@@ -1,0 +1,15 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap');
+#content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+h1{
+    color: yellow;
+    font-family: 'Roboto', cursive;;
+    font-size: 5em;
+    font-style: italic;
+    text-shadow: 2px 2px 3px #222, 2px 2px 3px black;
+}

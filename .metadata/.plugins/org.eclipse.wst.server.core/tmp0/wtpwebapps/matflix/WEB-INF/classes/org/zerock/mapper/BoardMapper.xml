@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+
+	<!-- SELECT * from tbl_board WHERE bno > 0;  -->
+	<select id="getList" resultType="org.zerock.domain.BoardVO">
+	<!-- XML에 사용한 CDATA 부분은 XML에서 부등호를 사용하기 위해서 사용합니다 -->
+	<![CDATA[
+	SELECT * from tbl_board WHERE bno > 0
+	]]>	
+	</select>
+	
+	<!-- 
+	insert into tbl_board (bno, title, content, writer)
+	values (seq_board.nextval, '테스트 제목', '테스트 내용', 'user00');
+	 -->
+	 <insert id="insert">
+	 insert into tbl_board (bno, title, content, writer)
+	 values (seq_board.nextval, #{title}, #{content}, #{writer})
+	 </insert>
+	 
+	 
+<!-- insertSelectKey()는 @SelectKey라는 MyBatis의 어노테이션을 이용합니다.
+@SelectKey는 주로 PK값을 미리(BEFORE) SQL을 통해서 처리해 두고 특정한 이름으로
+결과를 보관하는 방식입니다. @Insert 할때 SQL문을 보면 #{bno}와 같이 이미 처리된 결과를
+이용하는 것을 볼 수 있습니다 -->
+	 <!-- 
+	 SELECT seq_board.nextval from dual;
+	  -->	  
+	  <insert id="insertSelectKey">
+	  	<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+	  	SELECT seq_board.nextval from dual
+	  	</selectKey>
+	    insert into tbl_board (bno, title, content, writer)
+	 values (#{bno}, #{title}, #{content}, #{writer})	  
+	  </insert>
+
+	<!-- SELECT * FROM tbl_board where bno = 3; -->
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+	SELECT * FROM tbl_board where bno = #{bno}
+	</select>
+	
+	<!-- 
+	DELETE FROM tbl_board where bno = 23;
+	 -->	
+	<delete id="delete">
+	DELETE FROM tbl_board where bno = #{bno}
+	</delete>
+	
+	<!-- 
+	UPDATE tbl_board set title='내가 수정한 제목입니다!',
+	content='내가 수정한 내용입니다!', writer='김연아',
+	updateDate = sysdate where bno = 5;
+	 -->
+	<update id="update">
+	UPDATE tbl_board set title=#{title},
+	content=#{content}, writer=#{writer},
+	updateDate = sysdate where bno = #{bno}	
+	</update>
+	
+	<sql id="criteria">
+    	<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+    		<foreach collection="typeArr" item="type">
+    <!-- 안쪽 trim 태그 안에서는 앞서 Criteria 클래스에서 생성한 getTypeArr() 
+                 메서드로 가져온 type 값들을 활용합니다. 그리고, type 값이 다중일때,
+                 안쪽 trim 태그는 다음 type 값의 prefix 속성으로 
+         'OR' 텍스트를 추가해 줍니다 -->
+    			<trim prefix="OR">
+    				<choose>
+    					<when test="type == 'T'.toString()">
+    						title like '%'||#{keyword}||'%'
+    					</when>
+    					<when test="type == 'C'.toString()">
+    						content like '%'||#{keyword}||'%'
+    					</when>
+    					<when test="type == 'W'.toString()">
+    						writer like '%'||#{keyword}||'%'
+    					</when>    					
+    				</choose>
+    			</trim>    		
+    		</foreach>   	
+    	</trim>
+    	</sql>  
+	
+	
+	<!-- 바깥쪽 trim 태그 안에서 단일 키워드 검색일 경우, 먼저 prefix 속성이 (가 추가되고, prefixOverrides 속성이 쿼리문 중에서 
+'OR' 텍스트를 찾게 되고, 'OR' 텍스트를 찾게 되면 제거합니다. 그리고, suffix 속성이 맨 뒤에는 ) AND를 추가해 줍니다. -->
+<!-- 여기서는 foreach 태그 안쪽 trim 태그에서 먼저 prefix 속성이 'OR' 텍스트를 추가하여, 'OR' 연산으로 쿼리문을 처리하다가, 
+두가지의 텍스트 조합 검색 조건이 나타나면, 'AND' 연산을 수행하여 두가지의 텍스트 조합 조건을 검색 처리 합니다.-->	
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+		<![CDATA[
+		SELECT
+    bno, title, content, WRITER, REGDATE, UPDATEDATE, replyCnt
+    from(
+    SELECT /*+INDEX_DESC(tbl_board pk_board) */
+        ROWNUM rn, bno, title, content, WRITER, REGDATE, UPDATEDATE, replyCnt
+    FROM tbl_board
+    WHERE
+    ]]>
+    	  
+    <include refid="criteria"></include>  
+    	  
+    <![CDATA[
+    ROWNUM <= #{pageNum} * #{amount}   
+    )
+	WHERE rn > (#{pageNum} - 1) * #{amount} 
+		]]>
+	</select>
+	<!-- 
+	SELECT count(*) from tbl_board where bno > 0;
+	 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT count(*) from tbl_board
+		where
+		
+		<include refid="criteria"></include>
+		
+		bno > 0	
+	</select>
+	
+		<!-- Page482, Page483 댓글이 추가되면 반정규화된 tbl_board 테이블에 replycnt 칼럼이
+	     업데이트 되어야 하기 때문에 BoardMapper.xml에 updateReplyCnt 구문을 추가해야만 합니다 -->
+	     <!-- 
+	     update tbl_board set replycnt = replycnt + 10
+WHERE bno = 1638664;
+	      -->
+	      <update id="updateReplyCnt">
+	      	update tbl_board set replycnt = replycnt + #{amount}
+WHERE bno = #{bno}
+	      </update>
+</mapper>
+
+
